@@ -5,7 +5,8 @@
         Target="{{ target | default('Test') }}"
         TimeStamp="{{ timestamp }}"
         Version="{{ ota.version }}"
-        xmlns="{{ ota.namespace }}">
+        xmlns="{{ ota.namespace }}"
+        MaxResponses="{{ max_responses | default('100') }}">
     <POS>
         <Source>
             <RequestorID ID="{{ requestor.id }}" Type="{{ requestor.type }}">
@@ -14,7 +15,7 @@
         </Source>
     </POS>
     <Criteria>
-        {% if hotel is defined %}
+        {% if hotel is defined -%}
         <Criterion>
             <HotelRef ChainCode="{{ hotel.chain_code }}"
                     {%- if hotel.area is defined %} AreaID="{{ hotel.area }}"{%- endif -%}
@@ -22,49 +23,56 @@
                     {%- if hotel.brand is defined %} BrandCode="{{ hotel.brand }}" BrandName="Pegasus"{%- endif -%}/>
         </Criterion>
         {% endif -%}
-        {%- if guests is defined %}
+        {%- if rooms is defined -%}
         <Criterion>
             <RoomStayCandidates>
                 <RoomStayCandidate>
+                    {% for room in rooms -%}
                     <GuestCounts>
-                        {% for guest in guests %}
+                        {% for guest in room -%}
                         <GuestCount {% if guest.age is defined %}Age="{{ guest.age }}" {% endif %}{% if guest.category is defined %}AgeQualifyingCode="{{ guest.category | default('10') }}" {% endif %}Count="{{ guest.count | default('1') }}"/>
-                        {% endfor %}
+                        {% endfor -%}
                     </GuestCounts>
+                    {% endfor -%}
                 </RoomStayCandidate>
             </RoomStayCandidates>
         </Criterion>
         {% endif -%}
-        {%- if date_range.start_date is defined and date_range.end_date is defined %}
+        {%- if date_range is defined and date_range.start_date is defined and date_range.end_date is defined -%}
         <Criterion>
             <StayDateRange Start="{{ date_range.start_date | date('Y-m-d') }}" End="{{ date_range.end_date | date('Y-m-d') }}"/>
         </Criterion>
         {% endif -%}
-        {%- if address is defined %}
+        {%- if address is defined -%}
         <Criterion>
             <Address>
-                <CityName>{{ address }}</CityName>
+                {% if address.city_name is defined %}
+                <CityName>{{ address.city_name }}</CityName>
+                {% endif %}
+                {% if address.country_name is defined %}
+                <CountryName>{{ address.country_name }}</CountryName>
+                {% endif %}
             </Address>
         </Criterion>
         {% endif -%}
-        {%- if position is defined %}
+        {%- if position is defined -%}
         <Criterion>
             <Position Longitude="{{ position.longitude }}" Latitude="{{ position.latitude }}" />
         </Criterion>
         {% endif -%}
-        {%- if radius is defined %}
+        {%- if radius is defined -%}
         <Criterion>
             <Radius Distance="{{ radius.distance }}" DistanceMeasure="{{ radius.measure | default('km') }}" />
         </Criterion>
         {% endif -%}
-        {%- if keyword is defined %}
+        {%- if keyword is defined -%}
         <Criterion>
             <TPA_Extensions>
                 <Keyword>{{ keyword }}</Keyword>
             </TPA_Extensions>
         </Criterion>
         {% endif -%}
-        {%- if amenities is defined %}
+        {%- if amenities is defined -%}
         <Criterion>
             <TPA_Extensions>
             {% for amenity in amenities %}
@@ -77,10 +85,10 @@
             </TPA_Extensions>
         </Criterion>
         {% endif -%}
-        {%- if filter is defined %}
+        {%- if filter is defined -%}
         <Criterion>
             <TPA_Extensions>
-                <Filter {% if filter.bpromo is defined %}bpromo="{{ filter.bpromo }}" {% endif %}{% if filter.bpackage is defined %}bpackage="{{ filter.bpackage }}" {% endif %}{% if filter.rate_range is defined %}RateRangeReq="{{ filter.rate_range }}" {% endif %}{% if filter.rate_range_name %}RateRangeNameReq="{{ filter.rate_range_name }}" {% endif %}{% if filter.bstay %}bstay="{{ fitler.bstay }}" {% endif %}/>
+                <Filter {% if filter.bpromo is defined %}bpromo="{{ filter.bpromo }}" {% endif %}{% if filter.bpackage is defined %}bpackage="{{ filter.bpackage }}" {% endif %}{% if filter.rate_range is defined %}RateRangeReq="{{ filter.rate_range }}" {% endif %}{% if filter.rate_range_name is defined %}RateRangeNameReq="{{ filter.rate_range_name }}" {% endif %}{% if filter.bstay is defined %}bstay="{{ filter.bstay }}" {% endif %}/>
             </TPA_Extensions>
         </Criterion>
         {% endif %}
