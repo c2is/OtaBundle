@@ -94,6 +94,6 @@ class HotelSearch
             }
         }
 
-        return $this->twig->render('SehReservitBundle:ota:hotel_search.xml.twig', $this->options);
+        return $this->twig->render('OtaBundle:ota:hotel_search.xml.twig', $this->options);
     }
 }
