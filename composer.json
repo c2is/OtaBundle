@@ -1,0 +1,20 @@
+{
+    "name": "c2is/ota-bundle",
+    "type": "symfony-bundle",
+    "description": "C2is OTA bundle",
+    "keywords": [],
+    "authors": [
+        {
+            "name": "Guillaume Manen",
+            "email": "g.manen@c2is.fr"
+        }
+    ],
+    "require": {
+        "camcima/camcima-soap-client": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "C2is\\Bundle\\OtaBundle": "" }
+    },
+    "target-dir": "C2is/Bundle/OtaBundle",
+    "minimum-stability": "dev"
+}

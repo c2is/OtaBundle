@@ -1,0 +1,5 @@
+services:
+    ota.hotel_search:
+        class: C2is\Bundle\OtaBundle\OTA\HotelSearch
+        calls:
+            - [ setTwigEnvironment, [ @twig ] ]

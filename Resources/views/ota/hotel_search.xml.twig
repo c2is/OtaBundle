@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OTA_HotelSearchRQ
+        EchoToken="{{ echo }}"
+        PrimaryLangID="{{ locale | default('en') }}"
+        Target="{{ target | default('Test') }}"
+        TimeStamp="{{ timestamp }}"
+        Version="{{ ota.version }}"
+        xmlns="{{ ota.namespace }}">
+    <POS>
+        <Source>
+            <RequestorID ID="{{ requestor.id }}" Type="{{ requestor.type }}">
+                <CompanyName>{{ company_name }}</CompanyName>
+            </RequestorID>
+        </Source>
+    </POS>
+    <Criteria>
+        {% if hotel is defined %}
+        <Criterion>
+            <HotelRef ChainCode="{{ hotel.chain_code }}"
+                    {%- if hotel.area is defined %} AreaID="{{ hotel.area }}"{%- endif -%}
+                    {%- if hotel.name is defined %} HotelName="{{ hotel.name }}"{%- endif -%}
+                    {%- if hotel.brand is defined %} BrandCode="{{ hotel.brand }}" BrandName="Pegasus"{%- endif -%}/>
+        </Criterion>
+        {% endif -%}
+        {%- if guests is defined %}
+        <Criterion>
+            <RoomStayCandidates>
+                <RoomStayCandidate>
+                    <GuestCounts>
+                        {% for guest in guests %}
+                        <GuestCount {% if guest.age is defined %}Age="{{ guest.age }}" {% endif %}{% if guest.category is defined %}AgeQualifyingCode="{{ guest.category | default('10') }}" {% endif %}Count="{{ guest.count | default('1') }}"/>
+                        {% endfor %}
+                    </GuestCounts>
+                </RoomStayCandidate>
+            </RoomStayCandidates>
+        </Criterion>
+        {% endif -%}
+        {%- if date_range.start_date is defined and date_range.end_date is defined %}
+        <Criterion>
+            <StayDateRange Start="{{ date_range.start_date | date('Y-m-d') }}" End="{{ date_range.end_date | date('Y-m-d') }}"/>
+        </Criterion>
+        {% endif -%}
+        {%- if address is defined %}
+        <Criterion>
+            <Address>
+                <CityName>{{ address }}</CityName>
+            </Address>
+        </Criterion>
+        {% endif -%}
+        {%- if position is defined %}
+        <Criterion>
+            <Position Longitude="{{ position.longitude }}" Latitude="{{ position.latitude }}" />
+        </Criterion>
+        {% endif -%}
+        {%- if radius is defined %}
+        <Criterion>
+            <Radius Distance="{{ radius.distance }}" DistanceMeasure="{{ radius.measure | default('km') }}" />
+        </Criterion>
+        {% endif -%}
+        {%- if keyword is defined %}
+        <Criterion>
+            <TPA_Extensions>
+                <Keyword>{{ keyword }}</Keyword>
+            </TPA_Extensions>
+        </Criterion>
+        {% endif -%}
+        {%- if amenities is defined %}
+        <Criterion>
+            <TPA_Extensions>
+            {% for amenity in amenities %}
+                {% if amenity.ota is defined %}
+            <Amenity OTACOde="{{ amenity.ota.code }}" OTACodeType="{{ amenity.ota.type }}" />
+                {% else %}
+            <ReservITAmenity Code="{{ amenity.code }}" />
+                {% endif %}
+            {% endfor %}
+            </TPA_Extensions>
+        </Criterion>
+        {% endif -%}
+        {%- if filter is defined %}
+        <Criterion>
+            <TPA_Extensions>
+                <Filter {% if filter.bpromo is defined %}bpromo="{{ filter.bpromo }}" {% endif %}{% if filter.bpackage is defined %}bpackage="{{ filter.bpackage }}" {% endif %}{% if filter.rate_range is defined %}RateRangeReq="{{ filter.rate_range }}" {% endif %}{% if filter.rate_range_name %}RateRangeNameReq="{{ filter.rate_range_name }}" {% endif %}{% if filter.bstay %}bstay="{{ fitler.bstay }}" {% endif %}/>
+            </TPA_Extensions>
+        </Criterion>
+        {% endif %}
+    </Criteria>
+</OTA_HotelSearchRQ>
