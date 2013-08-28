@@ -21,6 +21,11 @@
                     {%- if hotel.area is defined %} AreaID="{{ hotel.area }}"{%- endif -%}
                     {%- if hotel.name is defined %} HotelName="{{ hotel.name }}"{%- endif -%}
                     {%- if hotel.brand is defined %} BrandCode="{{ hotel.brand }}" BrandName="Pegasus"{%- endif -%}/>
+            {#{% if hotel.codes is defined %}
+                {% for code in hotel.codes %}
+            <HotelRef ChainCode="{{ hotel.chain_code }}" HotelCode="{{ code }}"/>
+                {% endfor %}
+            {% endif %}#}
         </Criterion>
         {% endif -%}
         {%- if rooms is defined -%}
@@ -30,7 +35,7 @@
                     {% for room in rooms -%}
                     <GuestCounts>
                         {% for guest in room -%}
-                        <GuestCount {% if guest.age is defined %}Age="{{ guest.age }}" {% endif %}{% if guest.category is defined %}AgeQualifyingCode="{{ guest.category | default('10') }}" {% endif %}Count="{{ guest.count | default('1') }}"/>
+                        <GuestCount {% if guest.age is defined %}Age="{{ guest.age }}" {% endif %}AgeQualifyingCode="{{ guest.category | default('10') }}" Count="{{ guest.count | default('1') }}"/>
                         {% endfor -%}
                     </GuestCounts>
                     {% endfor -%}

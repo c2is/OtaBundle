@@ -5,10 +5,10 @@ namespace C2is\Bundle\OtaBundle\Model;
 /**
  * Data class used to hold data for a rate range.
  *
- * Class RateRange
+ * Class RateRangeData
  * @package C2is\Bundle\OtaBundle\Model
  */
-class RateRange
+class RateRangeData
 {
     /**
      * @var string The currency code.

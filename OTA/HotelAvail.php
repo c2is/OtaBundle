@@ -8,11 +8,11 @@ use C2is\Bundle\OtaBundle\Exception\MissingParameterException;
  * Class HotelSearch
  * @package Seh\Bundle\ReservitBundle\OTA
  */
-class HotelSearch extends AbstractOtaMessage
+class HotelAvail extends AbstractOtaMessage
 {
     protected function getName()
     {
-        return 'hotel_search';
+        return 'hotel_avail';
     }
 
     protected function getRequiredOptions()
@@ -23,6 +23,7 @@ class HotelSearch extends AbstractOtaMessage
             'ota',
             'requestor',
             'company_name',
+            'hotel',
         );
     }
 }

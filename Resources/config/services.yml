@@ -1,5 +1,14 @@
 services:
+    ota.factory:
+        class: C2is\Bundle\OtaBundle\OTA\MessageFactory
+        arguments: [ @service_container ]
     ota.hotel_search:
         class: C2is\Bundle\OtaBundle\OTA\HotelSearch
         calls:
             - [ setTwigEnvironment, [ @twig ] ]
+            - [ setDefaultOptions, [ @service_container ] ]
+    ota.hotel_avail:
+        class: C2is\Bundle\OtaBundle\OTA\HotelAvail
+        calls:
+            - [ setTwigEnvironment, [ @twig ] ]
+            - [ setDefaultOptions, [ @service_container ] ]
