@@ -21,12 +21,14 @@
                     {%- if hotel.area is defined %} AreaID="{{ hotel.area }}"{%- endif -%}
                     {%- if hotel.name is defined %} HotelName="{{ hotel.name }}"{%- endif -%}
                     {%- if hotel.brand is defined %} BrandCode="{{ hotel.brand }}" BrandName="Pegasus"{%- endif -%}/>
-            {#{% if hotel.codes is defined %}
-                {% for code in hotel.codes %}
-            <HotelRef ChainCode="{{ hotel.chain_code }}" HotelCode="{{ code }}"/>
-                {% endfor %}
-            {% endif %}#}
         </Criterion>
+            {% if hotel.codes is defined %}
+                {% for code in hotel.codes %}
+        <Criterion>
+            <HotelRef ChainCode="{{ hotel.chain_code }}" HotelCode="{{ code }}"/>
+        </Criterion>
+                {% endfor %}
+            {% endif %}
         {% endif -%}
         {%- if rooms is defined -%}
         <Criterion>
