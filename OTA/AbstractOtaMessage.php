@@ -3,6 +3,7 @@
 namespace C2is\Bundle\OtaBundle\OTA;
 
 use C2is\Bundle\OtaBundle\Error\OtaError;
+use C2is\Bundle\OtaBundle\Exception\MissingParameterException;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

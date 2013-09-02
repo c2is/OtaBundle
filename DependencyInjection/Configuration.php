@@ -29,12 +29,13 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('ota')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('version')->defaultValue('2006')->end()
-                        ->scalarNode('namespace')->defaultValue('http://www.opentravel.org/OTA/2006/01')->end()
+                        ->scalarNode('version')->isRequired()->cannotBeEmpty()->defaultValue('2006')->end()
+                        ->scalarNode('namespace')->isRequired()->cannotBeEmpty()->defaultValue('http://www.opentravel.org/OTA/2006/01')->end()
                     ->end()
                 ->end()
-                ->scalarNode('company_name')->isRequired()->end()
+                ->scalarNode('company_name')->isRequired()->cannotBeEmpty()->end()
             ->end();
 
         return $treeBuilder;
