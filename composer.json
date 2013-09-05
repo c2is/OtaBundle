@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "camcima/camcima-soap-client": "dev-master"
+        "c2is/ota": "dev-master"
     },
     "autoload": {
         "psr-0": { "C2is\\Bundle\\OtaBundle": "" }
