@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('company_name')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('target')->isRequired()->cannotBeEmpty()->defaultValue('Test')->end()
             ->end();
 
         return $treeBuilder;
